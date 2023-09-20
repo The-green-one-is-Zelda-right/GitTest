@@ -28,31 +28,30 @@ jobs:
     runs-on: windows-latest
 
     steps:
+    # 체크 아웃
     # https://github.com/actions/checkout
     - name: Checkout repository
       uses: actions/checkout@v4
 
+    # MSBuild 설정
     # https://github.com/microsoft/setup-msbuild
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.3.1
 
+    # NuGet 패키지 복원
     - name: Restore NuGet packages
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: nuget restore ${{env.SOLUTION_FILE_PATH}}
 
+    # 빌드
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      # Add additional options to the MSBuild command line here (like platform or verbosity level).
-      # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
       run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
 
-    - name: Upload Build Artifacts
-      uses: actions/upload-artifact@v3
+    # 아티팩트 업로드
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
       with:
         name: build-artifacts
-        path: ${{env.SOLUTION_FILE_PATH}}/Build/Release/
+        path: ${{env.SOLUTION_FILE_PATH}}/bin/${{env.BUILD_CONFIGURATION}}/*
         
-    # https://github.com/marketplace/actions/opencommit-improve-commits-with-ai
-    - name: OpenCommit — improve commits with AI 🧙
-      uses: di-sukharev/opencommit@github-action-v1.0.2
-            
