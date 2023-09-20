@@ -28,18 +28,18 @@ env:
 jobs:
   build:
     runs-on: windows-latest
+
     steps:
-    
     # 체크 아웃
     # https://github.com/actions/checkout
     - name: Checkout repository
       uses: actions/checkout@v4
-      
+
     # MSBuild 설정
     # https://github.com/microsoft/setup-msbuild
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.3.1
-      
+
     # 빌드
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
@@ -47,24 +47,8 @@ jobs:
 
     # 아티팩트 업로드
     - name: Upload artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v2
       with:
         name: build-artifacts
-        path: public/
-      
-  upload:
-    needs: build
-  
-    runs-on: windows-latest
-    steps:
-    # 체크 아웃
-    # https://github.com/actions/checkout
-    - name: Checkout repository
-      uses: actions/checkout@v4
-
-    # 아티팩트 다운로드
-    - name: Download artifacts
-      uses: actions/download-artifact@v3
-      with:
-        name: artifacts
-        path: public
+        path: ${{env.SOLUTION_FILE_PATH}}/bin/${{env.BUILD_CONFIGURATION}}/*
+        
