@@ -7,7 +7,7 @@ name: MSBuild
 
 on:
   schedule:
-   - cron: */2 * * * *
+   - cron: 0/5 * * * *
   push:
     branches: [ "master" ]
   pull_request:
