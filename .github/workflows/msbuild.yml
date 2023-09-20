@@ -64,7 +64,7 @@ jobs:
 
     # 아티팩트 다운로드
     - name: Download artifacts
-      uses: actions/download-artifact@master
+      uses: actions/download-artifact@v3
       with:
         name: artifacts
         path: public
