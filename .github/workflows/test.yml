@@ -28,12 +28,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@master
 
-      - name: Get Changelog Entry
-        id: changelog_reader
-        uses: mindsers/changelog-reader-action@master
-        with:
-          version: ${{ steps.tag_name.outputs.current_version }}
-          path: ./CHANGELOG.md
+      # - name: Get Changelog Entry
+      #   id: changelog_reader
+      #   uses: mindsers/changelog-reader-action@master
+      #   with:
+      #     version: ${{ steps.tag_name.outputs.current_version }}
+      #     path: ./CHANGELOG.md
 
       - name: Create Release
         id: create_release
@@ -43,7 +43,7 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: ${{env.BUILD_CONFIGURATION}} ${{ github.ref }}
-          body: ${{ steps.changelog_reader.outputs.changes }}
+          # body: ${{ steps.changelog_reader.outputs.changes }}
           draft: false
           prerelease: false
 
